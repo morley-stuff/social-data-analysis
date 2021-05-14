@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="../css/mystyle.css" />
 
     <script defer src="render.js"></script>
   </head>
@@ -12,5 +11,15 @@
     <h1>Social data analysis</h1>
     <p>Select a file to begin...</p>
     <button id=loadDataBtn class="button is-primary">Load social media data</button>
+    <button id=populateChartBtn class="button is-primary">Populate Chart</button>
+    <button id=friendSelectBtn class="button is-primary">Select friend</button>
+    <div>
+      <canvas id="dataChart"></canvas>
+    </div>
+    <ul class="block-list">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
   </body>
 </html>
