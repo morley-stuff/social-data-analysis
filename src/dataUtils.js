@@ -1,44 +1,68 @@
+// Returns the total message count for a converation
 function totalMessages(conversation) {
     return conversation.messages.length
 }
 
-function sentMessages(conversation, sender) {
-    return conversation.messages.filter(
-        message => message.sender_name.includes(sender)
-    ).length
+// Returns the total messages sent by a participant for a single conversation
+function sentMessages(conversation, participant) {
+    messages = conversation.messages
+    sentMessages = messages.filter(sentBy(participant))
+    return sentMessages.length
 }
 
-function receivedMessages(conversation, receiver) {
-    return conversation.messages.filter(
-        message => !message.sender_name.includes(receiver)
-    ).length
+// Returns the total messages not sent be a participant for a conversation
+function receivedMessages(conversation, participant) {
+    messages = conversation.messages;
+    receivedMessages = messages.filter(notSentBy(participant))
+    return receivedMessages.length
 }
 
-function sentWords(conversation, sender) {
-    sentMessages = conversation.messages.filter(
-        message => message.sender_name.includes(sender)
-    )
+// Returns the total number of words sent by a participant
+function sentWords(conversation, participant) {
+    // Extract data
+    messages = conversation.messages
 
+    // Filter data
+    sentMessages = messages.filter(sentBy(participant))
+
+    // Analyze data
     totalWords = 0;
-    sentMessages.forEach(message => {
-        if (message.hasOwnProperty('content')) {
-            totalWords += message['content'].split(' ').length
-        }
-    })
+    sentMessages.forEach(message => totalWords += wordsInMessage(message))
+
+    // Return value
     return totalWords
 }
 
-function receivedWords(conversation, sender) {
-    receivedMessages = conversation.messages.filter(
-        message => !message.sender_name.includes(sender)
-    )
+// Returns the total number of words not sent by a participant
+function receivedWords(conversation, participant) {
+    // Extract data
+    messages = conversation.messages;
+
+    // Filter data
+    receivedMessages = messages.filter(notSentBy(participant))
+
+    // Analyze data
     totalWords = 0;
-    receivedMessages.forEach(message => {
-        if (message.hasOwnProperty('content')) {
-            totalWords += message['content'].split(' ').length
-        }
-    })
+    receivedMessages.forEach(message => totalWords += wordsInMessage(message))
+
+    // Return value
     return totalWords
+}
+
+function wordsInMessage(message) {
+    if (message.hasOwnProperty('content')) {
+        return message['content'].split(' ').length
+    } else {
+        return 0;
+    }
+}
+
+function sentBy(participant) {
+    return (message) => message.sender_name.includes(participant)
+}
+
+function notSentBy(participant) {
+    return (message) => !message.sender_name.includes(participant)
 }
 
 function dataOwner(inbox) {
