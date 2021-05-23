@@ -5,6 +5,7 @@ const { remote } = require('electron');
 const { readFileSync } = require('fs');
 const { dialog, Menu } = remote;
 const Chart = require('chart.js')
+const chartDefs = require('./chartDefs')
 const {receivedMessages, sentMessages, receivedWords, sentWords} = require('./dataUtils')
 
 // Global state
@@ -15,9 +16,17 @@ const loadDataBtn        = document.getElementById('loadDataBtn');
 loadDataBtn.onclick      = selectSocialData;
 
 const totalMessagesBtn   = document.getElementById('totalMessagesBtn')
-totalMessagesBtn.onclick = newTotalMessages;
-const wordCountBtn = document.getElementById('wordCountBtn')
-wordCountBtn.onclick = newTotalWords;
+const wordCountBtn       = document.getElementById('wordCountBtn')
+
+totalMessagesBtn.onclick = newChart(chartDefs.messageCount);
+wordCountBtn.onclick     = newChart(chartDefs.wordCount);
+
+function newChart(chartDef) {
+    return () => {
+        chartConfig = chartDef(inbox)
+        createChart(chartConfig)
+    }
+}
 
 async function createChart(chartConfig) {
     console.log(chartConfig)
@@ -51,93 +60,9 @@ async function createChart(chartConfig) {
     chartCardContent.appendChild(newChart)
 }
 
-async function newTotalWords() {
-    chartConfig = await totalWordsConfig(inbox);
-    createChart(chartConfig)
-}
-
-async function totalWordsConfig() {
-    subset = inbox.slice(0,10)
-
-    const data = {
-        labels: subset.map((conversation) => conversation.participants.map((participant) => participant.name).join('-').slice(0,20)),
-        datasets: [{
-            label: "Received",
-            data: subset.map((conversation) => receivedWords(conversation, "Josh")),
-            backgroundColor: '#cc66ff',
-        },
-        {
-            label: "Sent",
-            data: subset.map((conversation) => sentWords(conversation, "Josh")),
-            backgroundColor: '#6600ff'
-        }]
-    }
-
-    console.log(data)
-
-    const config = {
-        type: 'bar',
-        data: data,
-        options: {
-            scales: {
-                x: {
-                    stacked: true,
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 90
-                    }
-                },
-                y: {
-                    stacked: true
-                }
-            }
-        }
-    }
-    return config;
-}
-
 async function newTotalMessages() {
     chartConfig = await totalMessagesConfig(inbox);
     createChart(chartConfig)
-}
-
-async function totalMessagesConfig() {
-    
-    subset = inbox.slice(0,10)
-    
-    const data = {
-        labels: subset.map((conversation) => conversation.participants.map((participant) => participant.name).join('-').slice(0,20)),
-        datasets: [{
-            label: "Received",
-            data: subset.map((conversation) => receivedMessages(conversation, "Josh")),
-            backgroundColor: '#cc66ff',
-        },
-        {
-            label: "Sent",
-            data: subset.map((conversation) => sentMessages(conversation, "Josh")),
-            backgroundColor: '#6600ff'
-        }]
-    }
-
-    const config = {
-        type: 'bar',
-        data: data,
-        options: {
-            scales: {
-                x: {
-                    stacked: true,
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 90
-                    }
-                },
-                y: {
-                    stacked: true
-                }
-            }
-        }
-    }
-    return config;
 }
 
 async function selectSocialData() {

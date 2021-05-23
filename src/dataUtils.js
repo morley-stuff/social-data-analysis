@@ -66,7 +66,7 @@ function notSentBy(participant) {
 }
 
 function dataOwner(inbox) {
-
+    return 'Josh'
 }
 
 module.exports = { totalMessages, sentMessages, receivedMessages, receivedWords, sentWords }
