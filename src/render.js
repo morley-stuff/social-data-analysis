@@ -60,11 +60,6 @@ async function createChart(chartConfig) {
     chartCardContent.appendChild(newChart)
 }
 
-async function newTotalMessages() {
-    chartConfig = await totalMessagesConfig(inbox);
-    createChart(chartConfig)
-}
-
 async function selectSocialData() {
     const { filePaths } = await dialog.showOpenDialog({properties: [
         "openDirectory"
