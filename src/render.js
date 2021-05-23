@@ -5,6 +5,7 @@ const { remote } = require('electron');
 const { readFileSync } = require('fs');
 const { dialog, Menu } = remote;
 const Chart = require('chart.js')
+const {receivedMessages, sentMessages, receivedWords, sentWords} = require('./dataUtils')
 
 // Global state
 let inbox = [];
@@ -15,14 +16,8 @@ loadDataBtn.onclick      = selectSocialData;
 
 const totalMessagesBtn   = document.getElementById('totalMessagesBtn')
 totalMessagesBtn.onclick = newTotalMessages;
-const sentMessagesBtn   = document.getElementById('sentMessagesBtn')
-sentMessagesBtn.onclick   = newSentMessages;
-const receivedMessagesBtn   = document.getElementById('receivedMessagesBtn')
-receivedMessagesBtn.onclick = receivedMessagesChart;
-
-async function receivedMessagesChart() {
-    console.log("Not implemented")
-}
+const wordCountBtn = document.getElementById('wordCountBtn')
+wordCountBtn.onclick = newTotalWords;
 
 async function createChart(chartConfig) {
     console.log(chartConfig)
@@ -56,21 +51,29 @@ async function createChart(chartConfig) {
     chartCardContent.appendChild(newChart)
 }
 
-async function newSentMessages() {
-    chartConfig = await sentMessagesConfig(inbox)
+async function newTotalWords() {
+    chartConfig = await totalWordsConfig(inbox);
     createChart(chartConfig)
 }
 
-async function sentMessagesConfig(inbox) {
+async function totalWordsConfig() {
     subset = inbox.slice(0,10)
 
     const data = {
         labels: subset.map((conversation) => conversation.participants.map((participant) => participant.name).join('-').slice(0,20)),
         datasets: [{
-            label: "test",
-            data: subset.map((conversation) => conversation.messages.filter(message => message.sender_name.includes("Josh")).length),
+            label: "Received",
+            data: subset.map((conversation) => receivedWords(conversation, "Josh")),
+            backgroundColor: '#cc66ff',
+        },
+        {
+            label: "Sent",
+            data: subset.map((conversation) => sentWords(conversation, "Josh")),
+            backgroundColor: '#6600ff'
         }]
     }
+
+    console.log(data)
 
     const config = {
         type: 'bar',
@@ -78,17 +81,19 @@ async function sentMessagesConfig(inbox) {
         options: {
             scales: {
                 x: {
+                    stacked: true,
                     ticks: {
                         autoSkip: false,
                         maxRotation: 90
                     }
+                },
+                y: {
+                    stacked: true
                 }
             }
         }
     }
-
     return config;
-
 }
 
 async function newTotalMessages() {
@@ -104,12 +109,13 @@ async function totalMessagesConfig() {
         labels: subset.map((conversation) => conversation.participants.map((participant) => participant.name).join('-').slice(0,20)),
         datasets: [{
             label: "Received",
-            data: subset.map((conversation) => conversation.messages.filter(message => !message.sender_name.includes("Josh")).length),
-            backgroundColor: '#ff6384',
+            data: subset.map((conversation) => receivedMessages(conversation, "Josh")),
+            backgroundColor: '#cc66ff',
         },
         {
             label: "Sent",
-            data: subset.map((conversation) => conversation.messages.filter(message => message.sender_name.includes("Josh")).length),
+            data: subset.map((conversation) => sentMessages(conversation, "Josh")),
+            backgroundColor: '#6600ff'
         }]
     }
 
@@ -145,7 +151,7 @@ async function selectSocialData() {
     
     dataIndicator.innerText = "Data selected for 'Josh Morley'"
     totalMessagesBtn.disabled = false;
-    sentMessagesBtn.disabled = false;
+    wordCountBtn.disabled = false;
 }
 
 function conversationSizeComparison(conv1, conv2) {
