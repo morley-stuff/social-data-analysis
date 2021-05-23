@@ -15,11 +15,11 @@ const dataIndicator      = document.getElementById('dataIndicator')
 const loadDataBtn        = document.getElementById('loadDataBtn');
 loadDataBtn.onclick      = selectSocialData;
 
-const totalMessagesBtn   = document.getElementById('totalMessagesBtn')
-const wordCountBtn       = document.getElementById('wordCountBtn')
+const messageCountCreate = document.getElementById('messageCountCreate')
+const wordCountCreate    = document.getElementById('wordCountCreate')
 
-totalMessagesBtn.onclick = newChart(chartDefs.messageCount);
-wordCountBtn.onclick     = newChart(chartDefs.wordCount);
+messageCountCreate.onclick = newChart(chartDefs.messageCount);
+wordCountCreate.onclick    = newChart(chartDefs.wordCount);
 
 function newChart(chartDef) {
     return () => {
@@ -33,32 +33,21 @@ async function createChart(chartConfig) {
     stage = document.getElementById('stage')
 
     // Chart
-    newChart = document.createElement('canvas')
+    chart = document.createElement('canvas')
     chartObj = new Chart(
-        newChart, chartConfig
+        chart, chartConfig
     )
     
     // Wrapper
-    chartCard = document.createElement('div')
-    chartCard.classList.add('card')
-    chartCardContent = document.createElement('div')
-    chartCardContent.classList.add('card-content')
-    chartCardFooter = document.createElement('div')
-    chartCardFooter.classList.add('card-footer')
-    chartCardDelete = document.createElement('a')
-    chartCardDelete.classList.add('card-footer-item')
-    chartCardDelete.innerText = "Delete"
-    chartCardDelete.onclick = function() {
-        chartCard = this.parentNode.parentNode
-        chartCard.parentNode.removeChild(chartCard)
-    }
+    chartContainer = document.createElement('div')
+    chartContainer.classList.add('chart-container')
+    chartContainer.classList.add('draggable')
+    chartContainer.style.height = '240px'
+    chartContainer.style.width = '480px'
     
     // Stitching
-    stage.appendChild(chartCard)
-    chartCard.appendChild(chartCardContent)
-    chartCard.appendChild(chartCardFooter)
-    chartCardFooter.appendChild(chartCardDelete)
-    chartCardContent.appendChild(newChart)
+    stage.prepend(chartContainer)
+    chartContainer.appendChild(chart)
 }
 
 async function selectSocialData() {
@@ -70,9 +59,7 @@ async function selectSocialData() {
 
     inbox.sort(conversationSizeComparison)
     
-    dataIndicator.innerText = `Data selected for '${dataOwner(inbox)}'`
-    totalMessagesBtn.disabled = false;
-    wordCountBtn.disabled = false;
+    dataIndicator.innerText = `Data [${dataOwner(inbox)}]`
 }
 
 function conversationSizeComparison(conv1, conv2) {

@@ -10,8 +10,12 @@ $dot-color: rgb(71, 67, 82);
 $dot-size: 1px;
 $dot-space: 22px;
 
+html {
+	height: 100%
+}
 
 #stage {
+
   background:
 		linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
 		linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
@@ -21,4 +25,28 @@ $dot-space: 22px;
 
 canvas {
     background-color: black;
+}
+
+.content {
+	margin-top: 10px;
+	height: 80%
+}
+
+aside {
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 18%;
+	float: left;
+}
+
+#stage {
+	margin-top: 10px;
+	margin-left: 10px;
+	float: left;
+	width: 80%;
+	height: 100%;
+}
+
+.draggable {
+	position: absolute
 }

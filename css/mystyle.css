@@ -8052,9 +8052,32 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
     border: 1px solid #f14668;
     border-left: 5px #f14668 solid; }
 
+html {
+  height: 100%; }
+
 #stage {
   background: linear-gradient(90deg, #85818f 21px, transparent 1%) center, linear-gradient(#85818f 21px, transparent 1%) center, #474352;
   background-size: 22px 22px; }
 
 canvas {
   background-color: black; }
+
+.content {
+  margin-top: 10px;
+  height: 80%; }
+
+aside {
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 18%;
+  float: left; }
+
+#stage {
+  margin-top: 10px;
+  margin-left: 10px;
+  float: left;
+  width: 80%;
+  height: 100%; }
+
+.draggable {
+  position: absolute; }

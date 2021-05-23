@@ -17,25 +17,7 @@ function messageCount(inbox) {
         }]
     }
 
-    const config = {
-        type: 'bar',
-        data: data,
-        options: {
-            scales: {
-                x: {
-                    stacked: true,
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 90
-                    }
-                },
-                y: {
-                    stacked: true
-                }
-            }
-        }
-    }
-    return config;
+    return stackedBarConfig(data)
 }
 
 function wordCount(inbox) {
@@ -55,12 +37,15 @@ function wordCount(inbox) {
         }]
     }
 
-    console.log(data)
+    return stackedBarConfig(data)
+}
 
-    const config = {
+function stackedBarConfig(data) {
+    return {
         type: 'bar',
         data: data,
         options: {
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     stacked: true,
@@ -75,7 +60,6 @@ function wordCount(inbox) {
             }
         }
     }
-    return config;
 }
 
 module.exports = {wordCount, messageCount}

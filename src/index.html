@@ -8,24 +8,47 @@
     <script defer src="render.js"></script>
     <script defer src="draggable.js"></script>
   </head>
+
+
+  
+
+
   <body class="content">
-    <h1>Facebook Data Analyzer</h1>
-    <div class="box">
-      <p id=dataIndicator>
-        No data selected
-      </p>
-      <button id=loadDataBtn class="button is-info is-small">Load Data</button>
-    </div>
+
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+          Facebook Data Analyzer
+        </a>
     
-    <button id=totalMessagesBtn    class="button is-primary" disabled>Message Count</button>
-    <button id=wordCountBtn        class="button is-primary" disabled>Word Count</button>
-    <button id=receivedMessagesBtn class="button is-primary" disabled>Received Messages</button>
-    <div id=stage class='box'>
-    </div>
-    <ul class="block-list">
-      <li>Item 1</li>
-      <li>Item 2</li>
-      <li>Item 3</li>
-    </ul>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    </nav>
+
+    <aside class="menu">
+      <p class="menu-label" id="dataIndicator">
+        Data [None Selected]
+      </p>
+      <ul class="menu-list">
+        <li>
+          <a id=loadDataBtn>Load Data</a>
+        </li>
+        
+      </ul>
+      <p class="menu-label">
+        Add Charts [Disabled]
+      </p>
+      <ul class="menu-list">
+        <li><a id=messageCountCreate>Message Count</a></li>
+        <li><a id=wordCountCreate> Word Count</a></li>
+        
+    </aside>
+
+    <div id=stage class='box'></div>
   </body>
+
 </html>

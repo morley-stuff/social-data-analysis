@@ -65,6 +65,10 @@ function notSentBy(participant) {
     return (message) => !message.sender_name.includes(participant)
 }
 
+function conversationName(conversation) {
+    
+}
+
 function dataOwner(inbox) {
     participantCounts = {}
     inbox.forEach(conversation => {
