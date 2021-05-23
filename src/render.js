@@ -49,6 +49,7 @@ async function createChart(chartConfig) {
     chartCardDelete.classList.add('card-footer-item')
     chartCardDelete.innerText = "Delete"
     chartCardDelete.onclick = function() {
+        chartCard = this.parentNode.parentNode
         chartCard.parentNode.removeChild(chartCard)
     }
     
