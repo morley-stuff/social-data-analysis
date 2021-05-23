@@ -92,6 +92,7 @@ function loadConversation(conversationDirectory) {
     conversation = {
         participants: [],
         messages: [],
+        title: ''
     }
     messageFiles = fs.readdirSync(conversationDirectory)
     messageFiles.forEach(function (messageFile) {
@@ -107,6 +108,7 @@ function loadConversation(conversationDirectory) {
                 conversation.participants = conversation.participants.concat(content.participants);
             }
             conversation.messages = conversation.messages.concat(content.messages);
+            conversation.title = content.title
         }
     })
     return conversation
