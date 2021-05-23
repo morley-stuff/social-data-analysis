@@ -66,7 +66,28 @@ function notSentBy(participant) {
 }
 
 function dataOwner(inbox) {
-    return 'Josh'
+    participantCounts = {}
+    inbox.forEach(conversation => {
+        conversation.participants.forEach(user => {
+            if (participantCounts.hasOwnProperty(user.name)) {
+                participantCounts[user.name] += 1
+            } else {
+                participantCounts[user.name] = 1
+            }
+        })
+
+    })
+
+    highestCount = 0
+    currentOwner = null
+    for (user in participantCounts) {
+        if (participantCounts[user] > highestCount) {
+            highestCount = participantCounts[user]
+            currentOwner = user
+        }
+    }
+
+    return currentOwner
 }
 
-module.exports = { totalMessages, sentMessages, receivedMessages, receivedWords, sentWords }
+module.exports = { totalMessages, sentMessages, receivedMessages, receivedWords, sentWords, dataOwner }

@@ -6,7 +6,7 @@ const { readFileSync } = require('fs');
 const { dialog, Menu } = remote;
 const Chart = require('chart.js')
 const chartDefs = require('./chartDefs')
-const {receivedMessages, sentMessages, receivedWords, sentWords} = require('./dataUtils')
+const {dataOwner} = require('./dataUtils')
 
 // Global state
 let inbox = [];
@@ -70,7 +70,7 @@ async function selectSocialData() {
 
     inbox.sort(conversationSizeComparison)
     
-    dataIndicator.innerText = "Data selected for 'Josh Morley'"
+    dataIndicator.innerText = `Data selected for '${dataOwner(inbox)}'`
     totalMessagesBtn.disabled = false;
     wordCountBtn.disabled = false;
 }
@@ -104,7 +104,7 @@ function loadConversation(conversationDirectory) {
 
             // Add data to conversation object
             if (conversation.participants.length == 0) {
-                conversation.participants = conversation.participants.concat(content.participants).filter(part => !part.name.includes("Josh"));
+                conversation.participants = conversation.participants.concat(content.participants);
             }
             conversation.messages = conversation.messages.concat(content.messages);
         }
