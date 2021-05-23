@@ -1,47 +1,74 @@
+// Imports
 const fs = require('fs')
 const path = require('path')
 const { remote } = require('electron');
 const { readFileSync } = require('fs');
 const { dialog, Menu } = remote;
 const Chart = require('chart.js')
+
 // Global state
 let inbox = [];
 
-const loadDataBtn  = document.getElementById('loadDataBtn');
-loadDataBtn.onclick = selectSocialData;
-const populateChartBtn = document.getElementById('populateChartBtn')
-populateChartBtn.onclick = populateChart;
-const selectFriendBtn = document.getElementById('friendSelectBtn');
-selectFriendBtn.onclick = getFriends;
+const dataIndicator      = document.getElementById('dataIndicator')
+const loadDataBtn        = document.getElementById('loadDataBtn');
+loadDataBtn.onclick      = selectSocialData;
 
-const dataChartCanvas = document.getElementById('dataChart');
+const totalMessagesBtn   = document.getElementById('totalMessagesBtn')
+totalMessagesBtn.onclick = newTotalMessages;
+const sentMessagesBtn   = document.getElementById('sentMessagesBtn')
+sentMessagesBtn.onclick   = newSentMessages;
+const receivedMessagesBtn   = document.getElementById('receivedMessagesBtn')
+receivedMessagesBtn.onclick = receivedMessagesChart;
 
-async function getFriends() {
-    const friendsMenu = Menu.buildFromTemplate(
-        inbox.map(conversation => {
-            return {
-                label: conversation.participants.map((participant) => participant.name).join('-'),
-                click: () => selectFriend(conversation)
-            }
-        })
+async function receivedMessagesChart() {
+    console.log("Not implemented")
+}
+
+async function createChart(chartConfig) {
+    console.log(chartConfig)
+    stage = document.getElementById('stage')
+
+    // Chart
+    newChart = document.createElement('canvas')
+    chartObj = new Chart(
+        newChart, chartConfig
     )
-
-    friendsMenu.popup();
+    
+    // Wrapper
+    chartCard = document.createElement('div')
+    chartCard.classList.add('card')
+    chartCardContent = document.createElement('div')
+    chartCardContent.classList.add('card-content')
+    chartCardFooter = document.createElement('div')
+    chartCardFooter.classList.add('card-footer')
+    chartCardDelete = document.createElement('a')
+    chartCardDelete.classList.add('card-footer-item')
+    chartCardDelete.innerText = "Delete"
+    chartCardDelete.onclick = function() {
+        chartCard.parentNode.removeChild(chartCard)
+    }
+    
+    // Stitching
+    stage.appendChild(chartCard)
+    chartCard.appendChild(chartCardContent)
+    chartCard.appendChild(chartCardFooter)
+    chartCardFooter.appendChild(chartCardDelete)
+    chartCardContent.appendChild(newChart)
 }
 
-function selectFriend(conversation) {
-    console.log(conversation)
+async function newSentMessages() {
+    chartConfig = await sentMessagesConfig(inbox)
+    createChart(chartConfig)
 }
 
-async function populateChart() {
+async function sentMessagesConfig(inbox) {
     subset = inbox.slice(0,10)
-    console.log(subset)
 
     const data = {
-        labels: subset.map((conversation) => conversation.participants.map((participant) => participant.name).join('-')),
+        labels: subset.map((conversation) => conversation.participants.map((participant) => participant.name).join('-').slice(0,20)),
         datasets: [{
             label: "test",
-            data: subset.map((conversation) => conversation.messages.length),
+            data: subset.map((conversation) => conversation.messages.filter(message => message.sender_name.includes("Josh")).length),
         }]
     }
 
@@ -53,16 +80,58 @@ async function populateChart() {
                 x: {
                     ticks: {
                         autoSkip: false,
-                        minRotation: 85,
                         maxRotation: 90
                     }
                 }
             }
         }
     }
-    var dataChart = new Chart(
-        dataChartCanvas, config
-    )
+
+    return config;
+
+}
+
+async function newTotalMessages() {
+    chartConfig = await totalMessagesConfig(inbox);
+    createChart(chartConfig)
+}
+
+async function totalMessagesConfig() {
+    
+    subset = inbox.slice(0,10)
+    
+    const data = {
+        labels: subset.map((conversation) => conversation.participants.map((participant) => participant.name).join('-').slice(0,20)),
+        datasets: [{
+            label: "Received",
+            data: subset.map((conversation) => conversation.messages.filter(message => !message.sender_name.includes("Josh")).length),
+            backgroundColor: '#ff6384',
+        },
+        {
+            label: "Sent",
+            data: subset.map((conversation) => conversation.messages.filter(message => message.sender_name.includes("Josh")).length),
+        }]
+    }
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 90
+                    }
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    }
+    return config;
 }
 
 async function selectSocialData() {
@@ -74,6 +143,9 @@ async function selectSocialData() {
 
     inbox.sort(conversationSizeComparison)
     
+    dataIndicator.innerText = "Data selected for 'Josh Morley'"
+    totalMessagesBtn.disabled = false;
+    sentMessagesBtn.disabled = false;
 }
 
 function conversationSizeComparison(conv1, conv2) {

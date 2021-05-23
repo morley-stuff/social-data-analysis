@@ -8051,3 +8051,10 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
     color: #f14668;
     border: 1px solid #f14668;
     border-left: 5px #f14668 solid; }
+
+#stage {
+  background: linear-gradient(90deg, #85818f 21px, transparent 1%) center, linear-gradient(#85818f 21px, transparent 1%) center, #474352;
+  background-size: 22px 22px; }
+
+canvas {
+  background-color: black; }

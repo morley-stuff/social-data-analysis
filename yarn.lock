@@ -266,6 +266,11 @@
     "global-agent" "^2.0.2"
     "global-tunnel-ng" "^2.7.1"
 
+"@interactjs/types@1.10.11":
+  "integrity" "sha512-YRsVFWjL8Gkkvlx3qnjeaxW4fnibSJ9791g8BA7Pv5ANByI64WmtR1vU7A2rXcrOn8XvyCEfY0ss1s8NhZP+MA=="
+  "resolved" "https://registry.npmjs.org/@interactjs/types/-/types-1.10.11.tgz"
+  "version" "1.10.11"
+
 "@malept/cross-spawn-promise@^1.0.0", "@malept/cross-spawn-promise@^1.1.0", "@malept/cross-spawn-promise@^1.1.1":
   "integrity" "sha512-RTBGWL5FWQcg9orDOCcp4LvItNzUPcyEU9bwaeJX0rJ1IQxzucC48Y0/sQLp/g6t99IQgAlGIaesJS+gTn7tVQ=="
   "resolved" "https://registry.yarnpkg.com/@malept/cross-spawn-promise/-/cross-spawn-promise-1.1.1.tgz"
@@ -1811,6 +1816,13 @@
     "string-width" "^4.1.0"
     "strip-ansi" "^6.0.0"
     "through" "^2.3.6"
+
+"interactjs@^1.10.11":
+  "integrity" "sha512-VPUWsGAOPmrZe1YF7Fq/4AIBBZ+3FikZRS8bpzT6VsAfUuhxl/CKJY73IAiZHd3fz9p174CXErn0Qs81XEFICA=="
+  "resolved" "https://registry.npmjs.org/interactjs/-/interactjs-1.10.11.tgz"
+  "version" "1.10.11"
+  dependencies:
+    "@interactjs/types" "1.10.11"
 
 "is-arrayish@^0.2.1":
   "integrity" "sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0="

@@ -1,3 +1,24 @@
 @charset "utf-8";
 @import "../node_modules/bulma/bulma.sass";
 @import "node_modules/bulma-block-list/src/block-list";
+
+// Colors
+$bg-color: rgb(133, 129, 143);
+$dot-color: rgb(71, 67, 82);
+
+// Dimensions
+$dot-size: 1px;
+$dot-space: 22px;
+
+
+#stage {
+  background:
+		linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+		linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+		$dot-color;
+	background-size: $dot-space $dot-space;
+}
+
+canvas {
+    background-color: black;
+}

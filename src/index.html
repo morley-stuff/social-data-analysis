@@ -2,19 +2,25 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Facebook Data Analyzer</title>
     <link rel="stylesheet" href="../css/mystyle.css" />
 
     <script defer src="render.js"></script>
+    <script defer src="draggable.js"></script>
   </head>
   <body class="content">
-    <h1>Social data analysis</h1>
-    <p>Select a file to begin...</p>
-    <button id=loadDataBtn class="button is-primary">Load social media data</button>
-    <button id=populateChartBtn class="button is-primary">Populate Chart</button>
-    <button id=friendSelectBtn class="button is-primary">Select friend</button>
-    <div>
-      <canvas id="dataChart"></canvas>
+    <h1>Facebook Data Analyzer</h1>
+    <div class="box">
+      <p id=dataIndicator>
+        No data selected
+      </p>
+      <button id=loadDataBtn class="button is-info is-small">Load Data</button>
+    </div>
+    
+    <button id=totalMessagesBtn    class="button is-primary" disabled>Total Messages</button>
+    <button id=sentMessagesBtn     class="button is-primary" disabled>Sent Messages</button>
+    <button id=receivedMessagesBtn class="button is-primary" disabled>Received Messages</button>
+    <div id=stage class='box'>
     </div>
     <ul class="block-list">
       <li>Item 1</li>
