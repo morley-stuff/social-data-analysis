@@ -19,10 +19,12 @@ loadDataBtn.onclick      = selectSocialData;
 const messageCountCreate = document.getElementById('messageCountCreate')
 const wordCountCreate    = document.getElementById('wordCountCreate')
 const countBetweenCreate = document.getElementById('countBetween')
+const testChartCreate    = document.getElementById('testChart')
 
 messageCountCreate.onclick = newChart(chartDefs.messageCount);
 wordCountCreate.onclick    = newChart(chartDefs.wordCount);
-countBetweenCreate.onclick = newChart(chartDefs.messageCountBetween)
+countBetweenCreate.onclick = newChart(chartDefs.messageCountBetween);
+testChartCreate.onclick    = newChart(chartDefs.testChart);
 
 function newChart(chartDef) {
     return () => {
@@ -45,8 +47,8 @@ async function createChart(chartConfig) {
     chartContainer = document.createElement('div')
     chartContainer.classList.add('chart-container')
     chartContainer.classList.add('draggable')
-    chartContainer.style.height = '240px'
-    chartContainer.style.width = '480px'
+    chartContainer.style.height = '480px'
+    chartContainer.style.width = '960px'
     
     // Stitching
     stage.prepend(chartContainer)

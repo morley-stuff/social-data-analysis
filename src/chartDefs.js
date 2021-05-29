@@ -1,5 +1,53 @@
 const dataUtils = require('./dataUtils')
 
+function testChart(inbox) {
+    inbox = dataUtils.filterConversations(inbox, dataUtils.isEmpty, false)
+    inbox = dataUtils.filterConversations(inbox, dataUtils.isGroupConversation, false)
+
+    inbox = dataUtils.sortConversations(inbox, dataUtils.totalMessages)
+    
+    inbox = inbox.slice(0,30)
+
+    datasets = inbox.map(conversation => {
+        yearData = dataUtils.groupByYear([conversation], 2010, 2020)
+        return {
+            label: conversation.title,
+            data: yearData.map(yearGroup => yearGroup.messages.length),
+            borderColor: '#' + Math.floor(Math.random()*16777215).toString(16)
+        }
+    })
+
+    yearData = dataUtils.groupByYear(inbox, 2010, 2020)
+
+    data = {
+        labels: yearData.map(yearGroup => yearGroup.year),
+        datasets: datasets
+    }
+
+    return lineConfig(data)
+}
+
+function testChart2(inbox) {
+    inbox = dataUtils.filterConversations(inbox, dataUtils.isEmpty, false)
+    inbox = dataUtils.filterConversations(inbox, dataUtils.isGroupConversation, false)
+    inbox = dataUtils.sortConversations(inbox, dataUtils.totalMessages)
+
+    inbox = inbox.slice(0,10)
+    
+    console.log(dataUtils.groupByYear(inbox, 2010, 2020))
+
+    data = {
+        labels: inbox.map(conv => conv.title),
+        datasets: [{
+            label: "Total messages",
+            data: inbox.map(conv => dataUtils.totalMessages(conv))
+        }]
+    }
+
+    console.log(inbox)
+    return stackedBarConfig(data)
+}
+
 function messageCount(inbox) {
     subset = inbox.slice(0,10)
     
@@ -115,4 +163,4 @@ function stackedBarConfig(data) {
     }
 }
 
-module.exports = {wordCount, messageCount, messageCountBetween}
+module.exports = {wordCount, messageCount, messageCountBetween, testChart}
