@@ -1,3 +1,11 @@
+function removeGroupConversations(inbox) {
+    inbox.filter(conversation => !isGroupConversation(conversation))
+}
+
+function onlyGroupConversations(inbox) {
+    inbox.filter(conversation => isGroupConversation(conversation))
+}
+
 // Returns the total message count for a converation
 function totalMessages(conversation) {
     return conversation.messages.length
@@ -57,6 +65,18 @@ function wordsInMessage(message) {
     }
 }
 
+function messageCountBetween(conversation, startDate, endDate) {
+    messages = conversation.messages;
+    validMessages = messages.filter(betweenTimes(startDate, endDate))
+    return validMessages.length
+}
+
+function betweenTimes(startDate, endDate) {
+    startTime = startDate.getTime();
+    endTime = endDate.getTime();
+    return (message) => (startTime < message.timestamp_ms && message.timestamp_ms < endTime)
+}
+
 function sentBy(participant) {
     return (message) => message.sender_name.includes(participant)
 }
@@ -65,8 +85,12 @@ function notSentBy(participant) {
     return (message) => !message.sender_name.includes(participant)
 }
 
-function conversationName(conversation) {
-    
+function isGroupConversation(conversation) {
+    if (conversation.participants.length > 2) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function dataOwner(inbox) {
@@ -94,4 +118,6 @@ function dataOwner(inbox) {
     return currentOwner
 }
 
-module.exports = { totalMessages, sentMessages, receivedMessages, receivedWords, sentWords, dataOwner }
+
+
+module.exports = { totalMessages, sentMessages, receivedMessages, receivedWords, sentWords, dataOwner, messageCountBetween, removeGroupConversations, onlyGroupConversations }

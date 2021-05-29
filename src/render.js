@@ -6,7 +6,8 @@ const { readFileSync } = require('fs');
 const { dialog, Menu } = remote;
 const Chart = require('chart.js')
 const chartDefs = require('./chartDefs')
-const {dataOwner} = require('./dataUtils')
+const dataUtils = require('./dataUtils')
+
 
 // Global state
 let inbox = [];
@@ -17,9 +18,11 @@ loadDataBtn.onclick      = selectSocialData;
 
 const messageCountCreate = document.getElementById('messageCountCreate')
 const wordCountCreate    = document.getElementById('wordCountCreate')
+const countBetweenCreate = document.getElementById('countBetween')
 
 messageCountCreate.onclick = newChart(chartDefs.messageCount);
 wordCountCreate.onclick    = newChart(chartDefs.wordCount);
+countBetweenCreate.onclick = newChart(chartDefs.messageCountBetween)
 
 function newChart(chartDef) {
     return () => {
@@ -59,7 +62,7 @@ async function selectSocialData() {
 
     inbox.sort(conversationSizeComparison)
     
-    dataIndicator.innerText = `Data [${dataOwner(inbox)}]`
+    dataIndicator.innerText = `Data [${dataUtils.dataOwner(inbox)}]`
 }
 
 function conversationSizeComparison(conv1, conv2) {

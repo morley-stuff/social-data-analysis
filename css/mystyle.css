@@ -8060,7 +8060,8 @@ html {
   background-size: 22px 22px; }
 
 canvas {
-  background-color: black; }
+  background-color: #c7d3df;
+  border-radius: 25px; }
 
 .content {
   margin-top: 10px;
